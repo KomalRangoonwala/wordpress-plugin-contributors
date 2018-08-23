@@ -1,13 +1,13 @@
 <div class="wrap">
-	<h1><?php esc_html_e(get_admin_page_title()); ?></h1>
+	<h1><?php /** @scrutinizer ignore-call */ esc_html_e(get_admin_page_title()); ?></h1>
 
 	  <form method="post" action="options.php">
 
 	<!-- Display necessary hidden fields for settings -->
-    <?php settings_fields( 'wpplugin_settings' ); ?>
+    <?php /** @scrutinizer ignore-call */ settings_fields( 'wpplugin_settings' ); ?>
     <!-- Display the settings sections for the page -->
-    <?php do_settings_sections( 'wpplugin' ); ?>
+    <?php /** @scrutinizer ignore-call */ do_settings_sections( 'wpplugin' ); ?>
     <!-- Default Submit Button -->
-    <?php submit_button(); ?>
+    <?php /** @scrutinizer ignore-call */ submit_button(); ?>
   </form>
 </div>
