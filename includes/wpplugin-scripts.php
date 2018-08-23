@@ -29,4 +29,5 @@ function wpplugin_frontend_scripts(){
 		wp_enqueue_script('wpplugin-frontend');
 	}
 }
+/** @scrutinizer ignore-call */ 
 add_action('wp_enqueue_scripts','wpplugin_frontend_scripts',100);
