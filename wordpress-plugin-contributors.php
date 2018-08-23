@@ -62,8 +62,7 @@ function save_custom_data($post_id)
 	global $post;
 	$contributor=get_post_meta($post->ID,'my_meta_box_check',true);
 	if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-    if( !isset( $_POST['meta_box_nonce'] ) || !wp_verify_n
-    	once( $_POST['meta_box_nonce'], 'my_meta_box_nonce' ) ) return;
+    if( !isset( $_POST['meta_box_nonce'] ) || !wp_verify_nonce( $_POST['meta_box_nonce'], 'my_meta_box_nonce' ) ) return;
     if( !current_user_can( 'edit_post' ) ) return;
     if ( isset($_POST['my_meta_box_check']) ) 
     {
