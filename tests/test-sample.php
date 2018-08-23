@@ -4,7 +4,6 @@
  *
  * @package Wpplugin_Contributors
  */
-composer require --dev phpunit/phpunit
 /**
  * Sample test case.
  */
