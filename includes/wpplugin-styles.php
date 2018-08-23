@@ -1,9 +1,6 @@
 <?php
 //conditionally loading CSS on plugin settings page only
-define('WPPLUGIN_URL',plugin_dir_url(__FILE__));
-define( 'WPPLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define('WPPLUGIN_UPLOADS_URL',wp_upload_dir(__FILE__));
-
+require_once('../wordpress-plugin-contributors');
 	function wpplugin_admin_styles($hook){
 		/** @scrutinizer ignore-call */ wp_register_style(
 			'wpplugin-admin',
