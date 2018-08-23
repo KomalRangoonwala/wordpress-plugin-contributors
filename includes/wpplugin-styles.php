@@ -1,6 +1,5 @@
 <?php
 //conditionally loading CSS on plugin settings page only
-require_once('../wordpress-plugin-contributors');
 	function wpplugin_admin_styles($hook){
 		/** @scrutinizer ignore-call */ wp_register_style(
 			'wpplugin-admin',
