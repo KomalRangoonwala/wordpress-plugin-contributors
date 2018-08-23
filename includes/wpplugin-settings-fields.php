@@ -1,23 +1,24 @@
   <?php
 
 	function wpplugin_settings(){
-		if(!get_option('wpplugin_settings')){
-			add_option('wpplugin_settings');
+		if(!/** @scrutinizer ignore-call */ get_option('wpplugin_settings')){
+			/** @scrutinizer ignore-call */ add_option('wpplugin_settings');
 		}
 	
 		//define at least one section for our fields
+		/** @scrutinizer ignore-call */ 
 		add_settings_section(
 			//unique id for the section
 			'wpplugin_settings_section',
 			//section title
-			__('Plugin settings section','wpplugin'),
+			/** @scrutinizer ignore-call */ __('Plugin settings section','wpplugin'),
 			//callback for an optional description
 			'wpplugin_settings_section_callback',
 			//admin page to add section to
 			'wpplugin'
 		);
 	
-		add_meta_box( 
+		/** @scrutinizer ignore-call */ add_meta_box( 
 			'my-meta-box-id', 
 			'My First Meta Box', 
 			'cd_meta_box_cb', 
