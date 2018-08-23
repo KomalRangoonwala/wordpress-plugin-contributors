@@ -55,6 +55,7 @@ function cd_meta_box_cb(/** @scrutinizer ignore-unused */ $post)
 		the_author_meta('user_nicename', $author->ID);
 		echo">";
 		echo"<label for='author'>";
+		/** @scrutinizer ignore-call */ 
 		the_author_meta('user_nicename', $author->ID);
 		echo"</label>";
 		echo "<br />";
@@ -79,11 +80,12 @@ function save_custom_data($post_id)
     	delete_post_meta($post_id, 'my_meta_box_check');
 	}
 }
+/** @scrutinizer ignore-call */ 
 add_action( 'save_post', 'save_custom_data' );
 
 function displaymeta( $content ){
 			global $post;
-			$m_meta_description = get_post_meta($post->ID, 'my_meta_box_check', true);
+			$m_meta_description = /** @scrutinizer ignore-call */ get_post_meta($post->ID, 'my_meta_box_check', true);
 			global $wpdb;
 			$user_nicenames = $wpdb->get_results("SELECT id,user_nicename,user_email,user_url FROM 
 			{$wpdb->prefix}users", ARRAY_N);	
