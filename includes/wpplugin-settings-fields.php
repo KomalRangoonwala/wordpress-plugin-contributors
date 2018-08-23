@@ -34,6 +34,7 @@
 	}
 	/** @scrutinizer ignore-call */ 
 	add_action('add_meta_boxes','cd_meta_box_add');
+	/** @scrutinizer ignore-call */ 
 	add_action('admin_init','wpplugin_settings');
 	
 	function wpplugin_settings_section_callback(){
