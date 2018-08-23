@@ -44,3 +44,4 @@
 	{
 		echo 'What you put here, show\'s up in the meta box';   
 	}
+?>
