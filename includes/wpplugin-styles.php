@@ -33,4 +33,5 @@ add_action('admin_enqueue_scripts','wpplugin_admin_styles');
 		/** @scrutinizer ignore-call */ wp_enqueue_style('wpplugin-frontend');
 	}
 }
+/** @scrutinizer ignore-call */ 
 add_action('wp_enqueue_scripts','wpplugin_frontend_styles',100);
