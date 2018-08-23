@@ -3,7 +3,7 @@ function wpplugin_settings_page()
 {
 	/** @scrutinizer ignore-call */ add_menu_page(
 	/** @scrutinizer ignore-call */ __('Plugin Name','wpplugin'),
-		__('Plugin Menu','wpplugin'),
+		/** @scrutinizer ignore-call */ __('Plugin Menu','wpplugin'),
 		'manage_options',
 		'wpplugin',
 		'wpplugin_settings_page_markup',
@@ -24,12 +24,13 @@ function wpplugin_settings_page_markup()
 function wpplugin_default_subpage(){
 	/** @scrutinizer ignore-call */ add_dashboard_page(
 		/** @scrutinizer ignore-call */ __('Cool default sub page','wpplugin'),
-		__('Custom sub page','wpplugin'),
+		/** @scrutinizer ignore-call */ __('Custom sub page','wpplugin'),
 		'manage_options',
 		'wpplugin-subpage',
 		'wpplugin_settings_page_markup'
 	);
 }
+/** @scrutinizer ignore-call */ 
 add_action('admin_menu','wpplugin_default_subpage');
 //Add a link to your settings page in your plugin
 function wpplugin_add_settings_link($links){
