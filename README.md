@@ -12,10 +12,10 @@ Note: You will have to update the list of contributors each time you edit the po
 
 # Installation 
 ```
-https://github.com/KomalRangoonwala/wordpress-plugin-contributors.git
+$ git clone https://github.com/KomalRangoonwala/wordpress-plugin-contributors.git
 ```
 # License 
 This project is licensed under GPLv2 or later.
 
-#Authors
+# Authors
 * Komal Rangoonwala
