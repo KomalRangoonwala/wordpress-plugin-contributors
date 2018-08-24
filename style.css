@@ -1,0 +1,24 @@
+.content {
+	  -moz-column-count: 3;
+	  -moz-column-gap: 10px;
+	  -moz-column-rule: none;
+	  -webkit-column-count: 3;
+	  -webkit-column-gap: 10px;
+	  -webkit-column-rule: none;
+	column-count: 3;
+	column-gap: 10px;
+	column-rule: none;
+	}
+	div {
+    width: 300px;
+    height: 100px;
+    padding: 15px;
+    background-color: yellow;
+    box-shadow: 10px 10px;
+}
+#cont{
+    width: 300px;
+    min-height: 110px;
+    padding: 10px;
+    box-shadow: 5px 5px 5px 5px;
+}
