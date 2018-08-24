@@ -2,7 +2,7 @@
 /**
  * PHPUnit bootstrap file
  *
- * @package Wpplugin_Contributors
+ * @package Wordpress_Plugin_Contributors
  */
 
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
@@ -25,7 +25,6 @@ require_once $_tests_dir . '/includes/functions.php';
 function _manually_load_plugin() {
 	require dirname( dirname( __FILE__ ) ) . '/wordpress-plugin-contributors.php';
 }
-/** @scrutinizer ignore-call */ 
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 
 // Start up the WP testing environment.
