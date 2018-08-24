@@ -15,7 +15,7 @@ Note: You will have to update the list of contributors each time you edit the po
 $ git clone https://github.com/KomalRangoonwala/wordpress-plugin-contributors.git
 ```
 # License 
-This project is licensed under GPLv2 or later.
+This project is licensed under GPLv2 or later. Check LICENSE.txt for more information.
 
 # Authors
 * Komal Rangoonwala
