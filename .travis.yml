@@ -1,4 +1,4 @@
-sudo: false
+sudo: required
 dist: trusty
 
 language: php
@@ -35,6 +35,8 @@ matrix:
       dist: precise
 
 before_script:
+  - sudo apt-get update
+  - sudo apt-get install libc6:i386 libstdc++6:i386
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - |
     if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
