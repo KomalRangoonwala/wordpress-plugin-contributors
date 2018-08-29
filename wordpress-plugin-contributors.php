@@ -17,7 +17,7 @@ if (!defined('WPINC'))
 define('WPPLUGIN_URL', /** @scrutinizer ignore-call */ plugin_dir_url(__FILE__));
 define('WPPLUGIN_DIR', /** @scrutinizer ignore-call */ plugin_dir_path(__FILE__));
 define('WPPLUGIN_UPLOADS_URL', /** @scrutinizer ignore-call */ wp_upload_dir(__FILE__));
-
+include(plugin_dir_path(__FILE__).'includes/wpplugin-styles.php');
 function cd_meta_box_add()
 {
 	$multi_posts=array('post', 'page');
