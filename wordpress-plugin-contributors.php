@@ -46,16 +46,19 @@ function cd_meta_box_cb($post)
  	echo '<br><br>';
  	wp_nonce_field('my_meta_box_nonce', 'meta_box_nonce');
 	global $wpdb;
-
+	
 	$authors=$wpdb->get_results("SELECT wp_users.ID, wp_users.user_nicename 
 	FROM wp_users INNER JOIN wp_usermeta 
 	ON wp_users.ID = wp_usermeta.user_id 
-	WHERE wp_usermeta.meta_key = 'wp_capabilities' 
-	AND wp_usermeta.meta_value LIKE '%author%' OR wp_usermeta.meta_value LIKE '%contributor%' OR wp_usermeta.meta_value LIKE '%editor%' OR wp_usermeta.meta_value LIKE '%administrator%'   
+	WHERE (wp_usermeta.meta_key = 'wp_capabilities' AND wp_usermeta.meta_value LIKE '%author%')
+	OR (wp_usermeta.meta_key = 'wp_capabilities' AND wp_usermeta.meta_value LIKE '%administrator%')
+	OR (wp_usermeta.meta_key = 'wp_capabilities' AND wp_usermeta.meta_value LIKE '%contributor%') 
+	OR (wp_usermeta.meta_key = 'wp_capabilities' AND wp_usermeta.meta_value LIKE '%editor%')
 	ORDER BY wp_users.user_nicename");
 
 	$current_user = wp_get_current_user();
 	foreach ($authors as $author) {
+	    
 		$author_info=get_userdata($author->ID);
 		//$author_role=$author_info->roles;
 		$author_first_name=$author_info->first_name;
