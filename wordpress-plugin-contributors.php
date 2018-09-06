@@ -19,6 +19,8 @@ define('WPPLUGIN_DIR', plugin_dir_path(__FILE__));
 define('WPPLUGIN_UPLOADS_URL', wp_upload_dir(__FILE__));
 
 include(plugin_dir_path(__FILE__).'includes/wpplugin-styles.php');
+include(plugin_dir_path(__FILE__).'includes/wpplugin-scripts.php');
+
 
 function cd_meta_box_add()
 {
@@ -35,18 +37,28 @@ function cd_meta_box_add()
 
 	}
 }
-
 add_action('add_meta_boxes', 'cd_meta_box_add');
+
+
 //display HTML data
 
 function cd_meta_box_cb($post)
 {
+	$metavalues=get_post_meta($post->ID, 'my_meta_box_check', true);
+	$arr=array();
+	if($metavalues!=NULL){
+	for ($i=0;$i<count($metavalues);$i++) {	
+		$arr[$i]=$metavalues[$i];
+	//	echo $arr[$i] . "</br>";
+	}
+	}
 	global $post;
+	echo'<body>';
  	echo'<b> Select the contributors that have contributed to this post: </b>';
- 	echo '<br><br>';
+ 	echo '<br></br>';
  	wp_nonce_field('my_meta_box_nonce', 'meta_box_nonce');
 	global $wpdb;
-	
+
 	$authors=$wpdb->get_results("SELECT wp_users.ID, wp_users.user_nicename 
 	FROM wp_users INNER JOIN wp_usermeta 
 	ON wp_users.ID = wp_usermeta.user_id 
@@ -55,22 +67,27 @@ function cd_meta_box_cb($post)
 	OR (wp_usermeta.meta_key = 'wp_capabilities' AND wp_usermeta.meta_value LIKE '%contributor%') 
 	OR (wp_usermeta.meta_key = 'wp_capabilities' AND wp_usermeta.meta_value LIKE '%editor%')
 	ORDER BY wp_users.user_nicename");
+	
+	$author_id_now=$post->post_author;
+	$original_display_name = get_the_author_meta( 'user_nicename' , $author_id_now ); 
 
 	$current_user = wp_get_current_user();
+		
+
 	foreach ($authors as $author) {
-	    
-		$author_info=get_userdata($author->ID);
-		//$author_role=$author_info->roles;
-		$author_first_name=$author_info->first_name;
-		$author_last_name=$author_info->last_name;
-		if(strcmp($current_user->user_nicename,$author->user_nicename)==0)
+
+	$author_info=get_userdata($author->ID);
+	$author_first_name=$author_info->first_name;
+	$author_last_name=$author_info->last_name;
+		
+		if(strcmp($original_display_name,$author->user_nicename)==0)
 		{		
-			echo"<input type='checkbox' id='my_meta_box_check' name='my_meta_box_check[]'";
+			echo"<input type='checkbox' id='hidden_my_meta_box_check' name='my_meta_box_check[]'";
 			echo"value=";
 			the_author_meta('user_nicename', $author->ID);
 			echo" checked disabled>";
 
-			echo"<input type='hidden' id='my_meta_box_check' name='my_meta_box_check[]'";
+			echo"<input type='hidden' id='hidden_my_meta_box_check' name='my_meta_box_check[]'";
 			echo"value=";
 			the_author_meta('user_nicename', $author->ID);
 			echo">";
@@ -82,15 +99,63 @@ function cd_meta_box_cb($post)
 			the_author_meta('user_nicename', $author->ID);
 			echo">";	
 		}
+
 		echo $author_first_name ." ". $author_last_name ." ";
 		echo"(";
 		echo"<label id='labelid' for='author'>";
 		the_author_meta('user_nicename', $author->ID);
 		echo"</label>";
 		echo")";
-		echo "<br />";
+		echo "<br/>";
+
+	}
+	
+	echo'</body></br>';
+?>
+<script type="text/javascript">
+
+(function() {
+
+    var boxes = document.querySelectorAll("input[name='my_meta_box_check[]']");
+    for (var i = 0; i < boxes.length; i++) {
+        var box = boxes[i];
+        if (box.hasAttribute("value")) {
+            setupBox(box);
+        }
+    }
+    
+    function setupBox(box) {
+        var storageId = box.getAttribute("value");
+        var oldVal    = localStorage.getItem(storageId);
+        box.checked = oldVal === "true" ? true : false;
+
+        box.addEventListener("change", function() {
+            localStorage.setItem(storageId, this.checked);
+        }); 
+    }
+
+var metaval= <?php echo json_encode($arr) ?>;
+for (var i = 0; i < boxes.length; i++) 
+{
+	for (var j = 0; j < metaval.length; j++) 
+	{
+		if(metaval[j]===boxes[i].getAttribute("value"))
+		{
+			boxes[i].checked=true;
+		}
 	}
 }
+
+
+})();
+document.getElementById("hidden_my_meta_box_check").checked = true;
+localStorage.clear();
+
+</script>
+
+<?php
+}
+
 //save custom data when our post is saved
 function save_custom_data($post_id)
 {
@@ -102,17 +167,16 @@ function save_custom_data($post_id)
 	if (isset($_POST['my_meta_box_check'])) 
 	{
 		update_post_meta($post_id, 'my_meta_box_check', $_POST['my_meta_box_check']);
-	//	$tablename = $wpdb->prefix.'authorlist';
-	//	$wpdb->insert($tablename,array('authorname'=>$post_id,'authorpost'=>$contributor));
-
 	}
   	else 
   	{
 		delete_post_meta($post_id, 'my_meta_box_check');
 	}
+
 }
 
 add_action('save_post', 'save_custom_data');
+
 
 function displaymeta($content) {
 			global $post;
@@ -171,19 +235,15 @@ function displaymeta($content) {
 			$content="<b> [Message from Contributors plugin] </b> Please mention contributors in post!";
 		}
 		return $content;
-}
 
+}
 add_filter('the_content', 'displaymeta');
 
 add_action( 'pre_get_posts', 'modify_author_query' );
-
 function modify_author_query( $query ) {
     // Check if on frontend and author query is modified
     if ( ! is_admin() && $query->is_author() ) {
         $author_name =  $query->query_vars['author_name'];
-        //$userdata = get_user_by('slug',$author_name);
-        //$userid = $user->ID;
-
         $meta_query = array(  
             array(
                 'key' => 'my_meta_box_check',
@@ -192,7 +252,6 @@ function modify_author_query( $query ) {
             )
         );
         $query->set( 'meta_query', $meta_query );
-
         // unset the default author
         unset( $query->query_vars['author_name'] );
     }
