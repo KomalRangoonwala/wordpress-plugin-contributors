@@ -9,7 +9,7 @@
 * License: GPLv2 or later
 * Text Domain: wpplugin
 */
-//If this file is called direk ctly, abort.
+//If this file is called directly, abort.
 if (!defined('WPINC'))
 {
 	die;
@@ -20,24 +20,32 @@ define('WPPLUGIN_UPLOADS_URL', wp_upload_dir(__FILE__));
 
 include(plugin_dir_path(__FILE__).'includes/wpplugin-styles.php');
 include(plugin_dir_path(__FILE__).'includes/wpplugin-scripts.php');
+include( plugin_dir_path( __FILE__ ) . 'includes/wpplugin-settings-fields.php');
+include( plugin_dir_path( __FILE__ ) . 'includes/wpplugin-menus.php');
+
 
 
 function cd_meta_box_add()
 {
 	$multi_posts=array('post', 'page');
-	foreach ($multi_posts as $multi_post) {
-		add_meta_box(
+	$optionfromdb=get_option('wpplugin_settings');
+	//echo $optionfromdb;
+	if($optionfromdb!=NULL)
+	{
+		foreach ($multi_posts as $multi_post) {	
+			add_meta_box(
 				'my-meta-box-id', //id
-	 			'Contributors', //title
-	 			'cd_meta_box_cb', //callback
-	 			 $multi_post, //post type
-	 			'normal', //position
-	 			'high' //priority
-	 			);
-
+				'Contributors', //title
+				'cd_meta_box_cb', //callback
+				$multi_post, //post type
+				'normal', //position
+				'high' //priority
+				);
+		}
 	}
+
 }
-add_action('add_meta_boxes', 'cd_meta_box_add');
+add_action('add_meta_boxes', 'cd_meta_box_add');			
 
 
 //display HTML data
@@ -232,7 +240,7 @@ function displaymeta($content) {
 		} 
 		else
 		{
-			$content="<b> [Message from Contributors plugin] </b> Please mention contributors in post!";
+			$content="<b> [Message from Contributors plugin] </b> The Contributors meta-box has not been enabled by the admin.";
 		}
 		return $content;
 
