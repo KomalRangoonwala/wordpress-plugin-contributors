@@ -2,7 +2,7 @@
 A WordPress plugin that displays a list of contributors on posts.
 
 # Demo
-Click [here](http://logicalartstudio.000webhostapp.com/) to view demo of this plugin.
+Click [here](https://developeronduty.000webhostapp.com/2020/12/fun-with-wordpress) to view demo of this plugin.
 
 # How it works?
 Install this plugin and activate it. 
